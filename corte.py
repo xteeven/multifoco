@@ -4,20 +4,26 @@ import cv2 as v
 import numpy as np
 
 def dividir(imagen, rows=2,cols=2):
-    alto = len(imagen)
-    ancho = len(imagen[0])
-    print 'ancho alto', ancho, alto
-
+    ancho = len(imagen)*1.0
+    alto = len(imagen[0])*1.0
+    cortes = []
+    total = []
     for i in range(rows):
         for j in range(cols):
-            print 'coord', i, j
+            posx = lambda pos, num: round((pos*1.0+num)/(rows)*ancho)
+            posy = lambda pos, num: round((pos*1.0+num)/(cols)*alto)
+            out = imagen[posx(i, 0):posx(i, 1), posy(j, 0):posy(j, 1)]
+            cortes.append(out)
+        total.append(cortes)
+        cortes = []
+    return total
 
-            print 'imagen[',((i*1.0/rows))*ancho,':',((i*1.0+1)/(rows))*alto,',',((j*1.0/cols))*ancho,':',((j*1.0+1)/(cols))*alto,']'
-            out = imagen[(i*1.0/rows)*ancho:(i*1.0+1)/(rows)*alto, (j*1.0/cols)*ancho:(j*1.0+1)/(cols)*alto]
-            v.imshow(str(i)+str(j), out)
 
 
 
 imagen = v.imread('mosca.png',0)
+cut = dividir(imagen)
 
-dividir(imagen)
+
+v.waitKey()
+
