@@ -15,7 +15,7 @@ laplace = v.convertScaleAbs(laplace)
 
 im1 = dividir(laplace)
 out = [dividir(i) for i in im1]
-print np.mean(out[0][0])
+
 
 for i in range(4):
     for j in range(4):
@@ -24,5 +24,5 @@ for i in range(4):
             v.imshow(str(i)+str(j), out[i][j])
 
 v.imshow('2', laplace)
-v.imshow('1', imagen)
+#v.imshow('1', imagen)
 v.waitKey()
