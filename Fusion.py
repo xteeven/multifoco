@@ -8,7 +8,7 @@ def dividir(imagen):
     ancho = len(imagen[0])
     return [imagen[:alto/2, :ancho/2], imagen[:alto/2, ancho/2:], imagen[alto/2:, :ancho/2], imagen[alto/2:, ancho/2:]]
 
-imagen = v.imread('b_bigbug0004_croppped.png',0)
+imagen = v.imread('mosca.png',0)
 
 laplace = v.Laplacian(imagen, v.CV_16S)
 laplace = v.convertScaleAbs(laplace)
