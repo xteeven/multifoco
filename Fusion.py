@@ -22,5 +22,5 @@ for i in range(4):
         print i, j, np.mean(out[i][j])
 
 v.imshow('2', laplace)
-#v.imshow('1', imagen)
+v.imshow('1', imagen)
 v.waitKey()
