@@ -23,6 +23,6 @@ for i in range(4):
         if np.mean(out[i][j])>10:
             v.imshow(str(i)+str(j), out[i][j])
 
-#v.imshow('2', laplace)
+v.imshow('2', laplace)
 v.imshow('1', imagen)
 v.waitKey()
