@@ -39,17 +39,17 @@ def isfocus(out, promed = 0):
     print np.asarray(salida)
 
 
-imagen = v.imread('mosca.png',0)
+imagen = v.imread('5.png',0)
 laplace = v.Laplacian(imagen, v.CV_16S)
 laplace = v.convertScaleAbs(laplace)
 
 out = dividir(laplace, 20, 37)
 prom = promedio(out)
-isfocus(out,prom)
+isfocus(out, prom)
 
 
 
-
-v.imshow('2', laplace)
+v.imshow('1', laplace)
+v.imshow('2', imagen)
 
 v.waitKey()
