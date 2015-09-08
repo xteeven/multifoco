@@ -3,7 +3,7 @@ __author__ = 'vaf'
 import cv2 as v
 import numpy as np
 
-def dividir(imagen, rows=2,cols=2):
+def dividir(imagen, rows=4,cols=4):
     ancho = len(imagen)*1.0
     alto = len(imagen[0])*1.0
     cortes = []
@@ -17,6 +17,7 @@ def dividir(imagen, rows=2,cols=2):
         total.append(cortes)
         cortes = []
     return total
+
 
 
 
