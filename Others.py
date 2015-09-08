@@ -1,6 +1,18 @@
 __author__ = 'vaf'
 import numpy as np
 
+def GetImagenes(directorio=os.getcwd(), formato='jpg'):
+    import os
+    currentdir = os.listdir(directorio)
+    imagenes = [currentdir[i] if currentdir[i][-3:] == formato else 0 for i in range(len(currentdir))]
+    imagenes.sort()
+    while True:
+        try:
+            imagenes.remove(0)
+        except:
+            break
+    return imagenes
+
 def promedio(out):
     prom = 0
     for i in range(len(out)):
