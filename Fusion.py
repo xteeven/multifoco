@@ -8,20 +8,20 @@ from Caracteristicas import eolaplace, eogradient, smlaplacian
 from Others import GetImagenes
 from easygui import *
 
-
+numero =7
 
 
 
 
 files = GetImagenes("dataset_gray")
 salida = "OUT"
-img = 0*2
+img = numero*2
 A = v.imread('dataset_gray/'+files[img], 0)
 B = v.imread('dataset_gray/'+files[img+1], 0)
 Ai = dividir(A)
 Bi = dividir(B)
 
-datos = open("dataset.txt","w")
+datos = open("dataset"+str(numero)+".txt","w")
 try:
     os.mkdir(salida)
 except:
@@ -32,8 +32,9 @@ title = "Dataset Training"
 response = None
 for i in range(4):
     for j in range(4):
-        v.imshow('A', Ai[j][i])
-        v.imshow('B', Bi[j][i])
+
+        v.imshow('A', v.resize(Ai[j][i], (400, 400)))
+        v.imshow('B', v.resize(Bi[j][i], (400, 400)))
         v.waitKey()
         response = buttonbox(msg, title, ["A", "B"])
         print response

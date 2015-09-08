@@ -1,0 +1,9 @@
+Index: Fusion.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- Fusion.py	(revision 67c765c088ae192c9e3f986c02118330fd080a34)
++++ Fusion.py	(revision 67c765c088ae192c9e3f986c02118330fd080a34)
+@@ -1,1 +0,0 @@
+-__author__ = 'Steeven Villa'
