@@ -8,7 +8,7 @@ from Caracteristicas import eolaplace, eogradient, smlaplacian
 from Others import GetImagenes
 from easygui import *
 
-numero =23
+numero =30
 
 
 
