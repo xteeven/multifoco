@@ -1,8 +1,7 @@
 __author__ = 'vaf'
 import numpy as np
-
+import os
 def GetImagenes(directorio=os.getcwd(), formato='jpg'):
-    import os
     currentdir = os.listdir(directorio)
     imagenes = [currentdir[i] if currentdir[i][-3:] == formato else 0 for i in range(len(currentdir))]
     imagenes.sort()
