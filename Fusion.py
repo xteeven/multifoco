@@ -11,11 +11,10 @@ from easygui import *
 numero =30
 
 
-
-
 files = GetImagenes("dataset_gray")
 salida = "OUT"
 img = numero*2
+print files[img]
 A = v.imread('dataset_gray/'+files[img], 0)
 B = v.imread('dataset_gray/'+files[img+1], 0)
 Ai = dividir(A)
@@ -36,7 +35,7 @@ for i in range(4):
         v.imshow('A', v.resize(Ai[j][i], (400, 400)))
         v.imshow('B', v.resize(Bi[j][i], (400, 400)))
         v.waitKey()
-        response = buttonbox(msg, title, ["A", "B"])
+        response = buttonbox(msg, title, ["A", "INDEFINIDO","B"])
         print response
         Aieol = eolaplace(Ai[j][i])
         Bieol = eolaplace(Bi[j][i])
@@ -56,7 +55,9 @@ for i in range(4):
             if response == "B":
                 v.imwrite(salida+"/"+files[img].split("_")[0]+"_1_"+str(i)+str(j)+"_"+"N"+".jpg", Ai[j][i])
                 v.imwrite(salida+"/"+files[img+1].split("_")[0]+"_2_"+str(i)+str(j)+"_"+"E"+".jpg", Bi[j][i])
-
+            if response == "INDEFINIDO":
+                v.imwrite(salida+"/"+files[img].split("_")[0]+"_1_"+str(i)+str(j)+"_"+"I"+".jpg", Ai[j][i])
+                v.imwrite(salida+"/"+files[img+1].split("_")[0]+"_2_"+str(i)+str(j)+"_"+"I"+".jpg", Bi[j][i])
         except:
             break
 
