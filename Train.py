@@ -3,7 +3,7 @@ __author__ = 'Xteeven'
 import numpy as np
 import mlpy
 import matplotlib.pyplot as plt
-
+import time
 
 datos = np.loadtxt('final.csv', delimiter=';')
 x, y = datos[:,:8], datos[:,8].astype(np.int)
@@ -49,3 +49,18 @@ xn = normalizar(x)
 #
 # a = [(mlc.pred(xn[i])) == y[i] for i in range(len(y))]
 # print float(sum(a))/float(len(y)), a
+
+
+valor = []
+plt.ion()
+plt.show()
+for val in np.arange(0.00001,1,0.0001):
+
+    vector = mlpy.LibSvm(svm_type='nu_svc', kernel_type='rbf', gamma=9 , C=10)
+    vector.learn(xn,y)
+    a = [(vector.pred(xn[i])) == y[i] for i in range(len(y))]
+    print float(sum(a))/float(len(y))
+    valor.append(float(sum(a))/float(len(y)))
+    plt.plot(valor)
+    plt.draw()
+    time.sleep(0.000001)
