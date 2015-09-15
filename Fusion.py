@@ -8,11 +8,11 @@ from Caracteristicas import eolaplace, eogradient, smlaplacian
 from Others import GetImagenes
 from easygui import *
 
-numero =30
+numero =1
 
 
 files = GetImagenes("dataset_gray")
-salida = "OUT"
+salida = "OUTq"
 img = numero*2
 print files[img]
 A = v.imread('dataset_gray/'+files[img], 0)
@@ -20,7 +20,7 @@ B = v.imread('dataset_gray/'+files[img+1], 0)
 Ai = dividir(A)
 Bi = dividir(B)
 
-datos = open("dataset"+str(numero)+".txt","w")
+datos = open("datasetb"+str(numero)+".txt","w")
 try:
     os.mkdir(salida)
 except:
