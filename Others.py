@@ -31,3 +31,4 @@ def isfocus(out, promed = 0):
         salida.append(fila)
         fila=[]
     print np.asarray(salida)
+

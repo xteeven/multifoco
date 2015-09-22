@@ -5,7 +5,7 @@ import cv2 as v
 import numpy as np
 import mlpy
 from Caracteristicas import eolaplace, eogradient, smlaplacian
-from corte import dividir
+from corte import dividir, unir
 
 datos = np.loadtxt('final.csv', delimiter=';')
 x, y = datos[:,:8], datos[:,8].astype(np.int)
@@ -22,19 +22,10 @@ B = v.imread('dataset_gray/'+files[img+1], 0)
 Ai = dividir(A,10,10)
 Bi = dividir(B,16,16)
 
-fila=[]
-out = []
-
-for k in range(len(Ai[0])):
-    for i in range(len(Ai[0][0])):
-        for f in range(len(Ai)):
-            fila += Ai[k][f][i].tolist()
-        out.append(np.array(fila, dtype=np.uint8))
-        fila  = []
 
 
 print A.dtype
-v.imshow('1', np.array(out))
+v.imshow('1', np.array(unir(Ai)))
 v.imshow('2', A)
 v.waitKey()
 #
