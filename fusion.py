@@ -21,16 +21,21 @@ A = v.imread('dataset_gray/'+files[img], 0)
 B = v.imread('dataset_gray/'+files[img+1], 0)
 Ai = dividir(A,10,10)
 Bi = dividir(B,16,16)
+
+fila=[]
 out = []
 
+for k in range(len(Ai[0])):
+    for i in range(len(Ai[0][0])):
+        for f in range(len(Ai)):
+            fila += Ai[k][f][i].tolist()
+        out.append(np.array(fila, dtype=np.uint8))
+        fila  = []
 
 
-for i in range(2):
-    out += np.array(Ai)[i][9].tolist()
-
-print np.array(out).shape
+print A.dtype
 v.imshow('1', np.array(out))
-#v.imshow('2', A)
+v.imshow('2', A)
 v.waitKey()
 #
 # for i in range(len(Ai[0])):
