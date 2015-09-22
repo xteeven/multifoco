@@ -22,9 +22,5 @@ def dividir(imagen, rows=4,cols=4):
 
 
 
-imagen = v.imread('mosca.png',0)
-cut = dividir(imagen)
-
-
 v.waitKey()
 
