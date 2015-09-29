@@ -19,15 +19,31 @@ def dividir(imagen, rows=4,cols=4):
     return total
 
 
+def unir1(IMG):
+    fila=[]
+    out = []
+
+    for k in range(len(IMG)):
+        for i in range(0, len(IMG[0][0])-1):
+            fila = IMG[k][0][i]
+            out.append(np.array(fila, dtype=np.uint8))
+    return out
+
+
 def unir(IMG):
     fila=[]
     out = []
-    for k in range(len(IMG[0])):
-        for i in range(len(IMG[0][0])):
+    flag = 0
+    try:
+        IMG[len(IMG)][len(IMG)][len(IMG[0][0])].tolist()
+    except:
+        flag = 1
+    for k in range(len(IMG)):
+        for i in range(len(IMG[0][0])-flag):
             for f in range(len(IMG)):
                 fila += IMG[k][f][i].tolist()
             out.append(np.array(fila, dtype=np.uint8))
-            fila  = []
+            fila = []
     return out
 
 

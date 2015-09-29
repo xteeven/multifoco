@@ -14,33 +14,34 @@ xn = x / norm
 vector = mlpy.LibSvm(svm_type='nu_svc', kernel_type='rbf', gamma=900 , C=1)
 vector.learn(xn,y)
 
-numero =1
+numero =0
 files = GetImagenes("dataset_gray")
 img = numero*2
 A = v.imread('dataset_gray/'+files[img], 0)
 B = v.imread('dataset_gray/'+files[img+1], 0)
-Ai = dividir(A,10,10)
-Bi = dividir(B,16,16)
+particiones = 20
+Ai = dividir(A,particiones,particiones)
+Bi = dividir(B,particiones,particiones)
 
+out = Ai
+for i in range(len(Ai[0])):
+    for j in range(len(Ai)):
+
+        Aieol = eolaplace(Ai[j][i])
+        Bieol = eolaplace(Bi[j][i])
+        Aisml = smlaplacian(Ai[j][i])
+        Bisml = smlaplacian(Bi[j][i])
+        Aieog = eogradient(Ai[j][i])
+        Bieog = eogradient(Bi[j][i])
+        Aivar = np.var(Ai[j][i])
+        Bivar = np.var(Bi[j][i])
+        caract = np.asarray([Aieol, Aieog, Aisml, Aivar, Bieol, Bieog, Bisml, Bivar])/norm
+        imagefocus = vector.pred(caract)
+        alpha = abs(Aivar/(Aivar+Bivar))
+        out[j][i] = Ai[j][i] if imagefocus == 0 else Bi[j][i] if imagefocus == 1 else Ai[j][i]*(alpha) + Bi[j][i]*(1-alpha)
 
 
 print A.dtype
-v.imshow('1', np.array(unir(Ai)))
+v.imshow('1', np.array(unir(out)))
 v.imshow('2', A)
 v.waitKey()
-#
-# for i in range(len(Ai[0])):
-#     for j in range(len(Ai)):
-#
-#         Aieol = eolaplace(Ai[j][i])
-#         Bieol = eolaplace(Bi[j][i])
-#         Aisml = smlaplacian(Ai[j][i])
-#         Bisml = smlaplacian(Bi[j][i])
-#         Aieog = eogradient(Ai[j][i])
-#         Bieog = eogradient(Bi[j][i])
-#         Aivar = np.var(Ai[j][i])
-#         Bivar = np.var(Bi[j][i])
-#         caract = np.asarray([Aieol, Aieog, Aisml, Aivar, Bieol, Bieog, Bisml, Bivar])/norm
-#         imagefocus = vector.pred(caract)
-#         out[j][i] = 1
-#         print imagefocus
