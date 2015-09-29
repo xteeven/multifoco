@@ -14,7 +14,7 @@ xn = x / norm
 vector = mlpy.LibSvm(svm_type='nu_svc', kernel_type='rbf', gamma=900 , C=1)
 vector.learn(xn, y)
 
-numero =29
+numero =10
 files = GetImagenes("dataset_gray")
 img = numero*2
 A = v.imread('dataset_gray/'+files[img], 0)
