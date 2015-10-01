@@ -50,14 +50,16 @@ def varianza(imagen):
     return float(np.var(imagen))/((len(imagen))*(len(imagen[0])))*1.0
 
 
-print smlaplacian(imagen)
-print eolaplace(imagen)
-print eogradient(imagen)
-print morphgradient(imagen)
-print varianza(imagen)
-v.imshow('1',smlaplacian(imagen, value=False))
-v.imshow('2',eolaplace(imagen, value=False))
-v.imshow('3', eogradient(imagen, value=False))
-v.imshow('4', morphgradient(imagen, value=False))
-v.imshow('0',imagen)
-v.waitKey()
+# print smlaplacian(imagen)
+# print eolaplace(imagen)
+# print eogradient(imagen)
+# print morphgradient(imagen)
+# print varianza(imagen)
+# v.imshow('1',smlaplacian(imagen, value=False))
+# v.imshow('2',eolaplace(imagen, value=False))
+# v.imshow('3', eogradient(imagen, value=False))
+# v.imshow('4', morphgradient(imagen, value=False))
+# v.imshow('0',imagen)
+# v.waitKey()
+
+print 'damm'
