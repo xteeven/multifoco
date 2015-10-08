@@ -5,6 +5,7 @@ import cv2 as v
 import numpy as np
 import time
 
+
 imagen = v.imread('dataset_gray/2_1.jpg',0)
 
 

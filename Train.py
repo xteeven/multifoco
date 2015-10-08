@@ -4,9 +4,13 @@ import numpy as np
 import mlpy
 import matplotlib.pyplot as plt
 import time
+import scipy.optimize as op
+from sklearn.svm import SVC
+from sklearn import preprocessing
+from sklearn import cross_validation
 
-datos = np.loadtxt('final.csv', delimiter=';')
-x, y = datos[:,:8], datos[:,8].astype(np.int)
+datos = np.loadtxt('datasetnew.txt', delimiter=',')
+x, y = datos[:,:10], datos[:,10].astype(np.int)
 #0 =A
 #1 =B
 #2 =INDEFINIDO
@@ -17,6 +21,7 @@ xn = x / np.sqrt(np.sum(x**2, axis=0))
 
 
 
+clf = SVC(kernel='rbf', C=2, gamma=100)
 
 ## Delta
 # delta = mlpy.DLDA(delta=1.5)
@@ -92,7 +97,7 @@ kfold = mlpy.cv_kfold(len(xn), len(xn))
 # plt.show()
 
 
-
+#
 # percent = []
 # rango = range(1, 50)
 # for var in rango:
@@ -120,7 +125,7 @@ kfold = mlpy.cv_kfold(len(xn), len(xn))
 # rango = np.arange(0, .0002,0.00005)
 # for var in rango:
 #     result = []
-#     classifier = mlpy.ClassTree(stumps=0,minsize=0)
+#     classifier = mlpy.ClassTree(stumps=0,minsize=var)
 #     for crossval in range(len(kfold)):
 #         trainindex = kfold[crossval][0].tolist()
 #         evaluateindex = kfold[crossval][1].tolist()
@@ -138,29 +143,30 @@ kfold = mlpy.cv_kfold(len(xn), len(xn))
 # plt.ylabel("Cross-Validation Result")
 # print [rango, percent]
 
-# percent = []
-# rango = np.arange(0, 1, 0.3) #gamma = 900 - 7842741935483871
-# for var in rango:
-#     itera=time.clock()
-#     result = []
-#     classifier = mlpy.LibSvm(svm_type='nu_svc', kernel_type='rbf', gamma=var , C=1)
-#     for crossval in range(len(kfold)):
-#         trainindex = kfold[crossval][0].tolist()
-#         evaluateindex = kfold[crossval][1].tolist()
-#         trainx = xn[trainindex]
-#         trainy = y[trainindex]
-#         evaluatex = xn[evaluateindex]
-#         evaluatey = y[evaluateindex]
-#         classifier.learn(trainx, trainy)
-#         result.append(classifier.pred(evaluatex) == evaluatey)
-#     print time.clock()-itera
-#     percent.append(float(sum(result))/float(len(result)))
-#
-# plt.plot(rango, np.asarray(percent)*100)
-# plt.title("SVM")
-# plt.xlabel("gamma")
-# plt.ylabel("Cross-Validation Result")
-# print [rango, percent]
+result = []
+result2 = []
+classifier = mlpy.LibSvm(svm_type='nu_svc', kernel_type='rbf', gamma=900, C=1)
+clf = SVC(kernel='rbf', C=1, gamma=900)
+for crossval in range(len(kfold)):
+    trainindex = kfold[crossval][0].tolist()
+    evaluateindex = kfold[crossval][1].tolist()
+    trainx = xn[trainindex]
+    trainy = y[trainindex]
+    evaluatex = xn[evaluateindex]
+    evaluatey = y[evaluateindex]
+    clf.fit(trainx, trainy)
+    classifier.learn(trainx, trainy)
+
+    result2.append(clf.predict(evaluatex) == evaluatey)
+
+    result.append(classifier.pred(evaluatex) == evaluatey)
+print float(sum(result))/float(len(result)), float(sum(result2))/float(len(result2))
+
+
+
+
+
+print 'i'
 
 
 plt.show()
