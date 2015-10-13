@@ -1,172 +1,139 @@
 __author__ = 'Xteeven'
 
 import numpy as np
+import neurolab as nl
 import mlpy
 import matplotlib.pyplot as plt
 import time
-import scipy.optimize as op
+from sklearn.lda import LDA
+from sklearn.qda import QDA
+from sklearn.cross_validation import train_test_split
+from sklearn.grid_search import GridSearchCV
+from sklearn.metrics import classification_report
 from sklearn.svm import SVC
-from sklearn import preprocessing
-from sklearn import cross_validation
+from sklearn import neighbors, datasets
+from sklearn import tree
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import confusion_matrix
+
 
 datos = np.loadtxt('datasetnew.txt', delimiter=',')
-x, y = datos[:,:10], datos[:,10].astype(np.int)
-#0 =A
-#1 =B
-#2 =INDEFINIDO
+x, y = datos[:, :10], datos[:, 10].astype(np.int)
 
 # x = x - np.mean(x, axis=0)
 xn = x / np.sqrt(np.sum(x**2, axis=0))
-
-
-
-
-clf = SVC(kernel='rbf', C=2, gamma=100)
-
-## Delta
-# delta = mlpy.DLDA(delta=1.5)
-# delta.learn(xn, y)
-# a =  [(delta.pred(xn[i]))==y[i] for i in range(len(y))]
-# print float(sum(a))/float(len(y)), a
-
-# # Knn
-# Knn = mlpy.KNN(k=3)
-# Knn.learn(xn,y)
-# a = [(Knn.pred(xn[i])) == y[i] for i in range(len(y))]
-# print float(sum(a))/float(len(y)), a
-
-
-
-# Classification Tree
-# tree = mlpy.ClassTree(stumps=0,minsize=1)
-# tree.learn(xn,y)
-# a = [(tree.pred(xn[i])) == y[i] for i in range(len(y))]
-# print float(sum(a))/float(len(y)), a
-
-
-# Maximum likelihood Classifier
-# #
-# mlc = mlpy.MaximumLikelihoodC()
-#
-# mlc.learn(x, y)
-#
-# a = [(mlc.pred(xn[i])) == y[i] for i in range(len(y))]
-# print float(sum(a))/float(len(y)), a
-
-#
-# valor = []
-# plt.ion()
-plt.show()
-# for val in np.arange(0.00001,1,0.0001):
-#
-#     vector = mlpy.LibSvm(svm_type='nu_svc', kernel_type='rbf', gamma=9 , C=10)
-#     vector.learn(xn,y)
-#     a = [(vector.pred(xn[i])) == y[i] for i in range(len(y))]
-#     print float(sum(a))/float(len(y))
-#     valor.append(float(sum(a))/float(len(y)))
-#     plt.plot(valor)
-#     plt.draw()
-#     time.sleep(0.000001)
-
-
-# Cross-Validation
-
 kfold = mlpy.cv_kfold(len(xn), len(xn))
-#
-#
+
+#-----------------------------------------------------------
 # percent = []
-# rango = np.arange(0, 3.1, 0.1) #delta 1 - 70%
-# for var in rango:
-#     result = []
-#     classifier = mlpy.DLDA(delta=var)
-#     for crossval in range(len(kfold)):
-#         trainindex = kfold[crossval][0].tolist()
-#         evaluateindex = kfold[crossval][1].tolist()
-#         trainx = xn[trainindex]
-#         trainy = y[trainindex]
-#         evaluatex = xn[evaluateindex]
-#         evaluatey = y[evaluateindex]
+# # 0.722916666667
+# result = []
+# classifier = LDA()
+# classifier.fit(xn, y)
+# for crossval in range(len(kfold)):
+#     trainindex = kfold[crossval][0].tolist()
+#     evaluateindex = kfold[crossval][1].tolist()
+#     trainx = xn[trainindex]
+#     trainy = y[trainindex]
+#     evaluatex = xn[evaluateindex]
+#     evaluatey = y[evaluateindex]
 #
-#         classifier.learn(trainx, trainy)
-#         result.append(classifier.pred(evaluatex) == evaluatey)
-#     percent.append(float(sum(result))/float(len(result)))
-# plt.plot(rango, np.asarray(percent)*100)
-# plt.title("DLDA (Lineal)")
-# plt.xlabel("delta")
-# plt.ylabel("Cross-Validation Result")
-# plt.show()
+#     classifier.fit(trainx, trainy)
+#     result.append(classifier.predict(evaluatex) == evaluatey)
+#
+# print float(sum(result))/len(result)
+#
+#-----------------------------------------------------------
+# X_train, X_test, y_train, y_test = train_test_split(
+#     xn, y, test_size=0.1, random_state=0)
+#
+# gam = np.arange(1, 10).tolist()
+# tuned_parameters = [{'weights': ['uniform', 'distance'], 'n_neighbors': gam}]
+# clfa = neighbors.KNeighborsClassifier()
+# clf = GridSearchCV(clfa, tuned_parameters, cv=5)
+# clf.fit(X_train, y_train)
+# print(clf.best_params_)
+#
+# result = []
+# 0.735416666667 {'n_neighbors': 4, 'weights': 'distance'}
+# classifier = neighbors.KNeighborsClassifier(weights='distance', n_neighbors=4)
+# classifier.fit(xn ,y)
+# for crossval in range(len(kfold)):
+#     trainindex = kfold[crossval][0].tolist()
+#     evaluateindex = kfold[crossval][1].tolist()
+#     trainx = xn[trainindex]
+#     trainy = y[trainindex]
+#     evaluatex = xn[evaluateindex]
+#     evaluatey = y[evaluateindex]
+#
+#     classifier.fit(trainx, trainy)
+#     result.append(classifier.predict(evaluatex) == evaluatey)
+#
+# print float(sum(result))/len(result)
+#
+#
+#-----------------------------------------------------------
 
+# X_train, X_test, y_train, y_test = train_test_split(
+#     xn, y, test_size=0.1, random_state=0)
+# lim = np.arange(900, 1200, 300/100).tolist()
+# gam = np.arange(1, 2, 1.0/100).tolist()
+# tuned_parameters = [{'kernel': ['rbf'], 'gamma': gam,
+#                      'C': lim}]
 
 #
-# percent = []
-# rango = range(1, 50)
-# for var in rango:
-#     result = []
-#     classifier = mlpy.KNN(k=var)
-#     for crossval in range(len(kfold)):
-#         trainindex = kfold[crossval][0].tolist()
-#         evaluateindex = kfold[crossval][1].tolist()
-#         trainx = xn[trainindex]
-#         trainy = y[trainindex]
-#         evaluatex = xn[evaluateindex]
-#         evaluatey = y[evaluateindex]
-#         classifier.learn(trainx, trainy)
-#         result.append(classifier.pred(evaluatex) == evaluatey)
-#     percent.append(float(sum(result))/float(len(result)))
+# clf = GridSearchCV(SVC(C=1), tuned_parameters, cv=5)
+# clf.fit(X_train, y_train)
+# print(clf.best_params_)
+# y_true, y_pred = y_test, clf.predict(X_test)
+# print(classification_report(y_true, y_pred))
 #
-# plt.plot(rango, np.asarray(percent)*100)
-# plt.title("KNN")
-# plt.xlabel("k")
-# plt.ylabel("Cross-Validation Result")
-# print [rango, percent]
 
+# #{'kernel': 'rbf', 'C': 972, 'gamma': 1.3300000000000003} #0.7625
+# classifier = SVC(kernel='rbf', C=972, gamma=1.33)
+# classifier.fit(xn,y)
+# result = []
+# for crossval in range(len(kfold)):
+#     trainindex = kfold[crossval][0].tolist()
+#     evaluateindex = kfold[crossval][1].tolist()
+#     trainx = xn[trainindex]
+#     trainy = y[trainindex]
+#     evaluatex = xn[evaluateindex]
+#     evaluatey = y[evaluateindex]
+#     clf.fit(trainx, trainy)
+#     result.append(clf.predict(evaluatex) == evaluatey)
+# print float(sum(result))/float(len(result))
 #
-# percent = [] #0.782258064516129 best
-# rango = np.arange(0, .0002,0.00005)
-# for var in rango:
-#     result = []
-#     classifier = mlpy.ClassTree(stumps=0,minsize=var)
-#     for crossval in range(len(kfold)):
-#         trainindex = kfold[crossval][0].tolist()
-#         evaluateindex = kfold[crossval][1].tolist()
-#         trainx = xn[trainindex]
-#         trainy = y[trainindex]
-#         evaluatex = xn[evaluateindex]
-#         evaluatey = y[evaluateindex]
-#         classifier.learn(trainx, trainy)
-#         result.append(classifier.pred(evaluatex) == evaluatey)
-#     percent.append(float(sum(result))/float(len(result)))
+#----------------------------------------------------------------
+# X_train, X_test, y_train, y_test = train_test_split(
+#     xn, y, test_size=0.1, random_state=0)
+# lim = np.arange(1, 37).tolist()
+# tuned_parameters = [{'n_estimators': lim}]
+# cla = RandomForestClassifier()
+# clf = GridSearchCV(cla, tuned_parameters, cv=3)
+# clf.fit(X_train, y_train)
+# print(clf.best_params_)
 #
-# plt.plot(rango, np.asarray(percent)*100)
-# plt.title("Clas-tree")
-# plt.xlabel("Minsize")
-# plt.ylabel("Cross-Validation Result")
-# print [rango, percent]
-
-result = []
-result2 = []
-classifier = mlpy.LibSvm(svm_type='nu_svc', kernel_type='rbf', gamma=900, C=1)
-clf = SVC(kernel='rbf', C=1, gamma=900)
-for crossval in range(len(kfold)):
-    trainindex = kfold[crossval][0].tolist()
-    evaluateindex = kfold[crossval][1].tolist()
-    trainx = xn[trainindex]
-    trainy = y[trainindex]
-    evaluatex = xn[evaluateindex]
-    evaluatey = y[evaluateindex]
-    clf.fit(trainx, trainy)
-    classifier.learn(trainx, trainy)
-
-    result2.append(clf.predict(evaluatex) == evaluatey)
-
-    result.append(classifier.pred(evaluatex) == evaluatey)
-print float(sum(result))/float(len(result)), float(sum(result2))/float(len(result2))
+# result = []
+#{'n_estimators': 36} 0.789583333333
+# classifier = RandomForestClassifier(n_estimators=36)
+# classifier.fit(xn, y)
+# for crossval in range(len(kfold)):
+#     trainindex = kfold[crossval][0].tolist()
+#     evaluateindex = kfold[crossval][1].tolist()
+#     trainx = xn[trainindex]
+#     trainy = y[trainindex]
+#     evaluatex = xn[evaluateindex]
+#     evaluatey = y[evaluateindex]
+#
+#     classifier.fit(trainx, trainy)
+#     result.append(classifier.predict(evaluatex) == evaluatey)
+#
+# print float(sum(result))/len(result)
 
 
+#print confusion_matrix(classifier.predict(xn), y)
 
-
-
-print 'i'
 
 
 plt.show()
